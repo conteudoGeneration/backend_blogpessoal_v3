@@ -57,6 +57,11 @@
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Dependência do Banco de dados do Deploy - Postgres -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
 		<!-- Dependência para Geração do Swagger -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
