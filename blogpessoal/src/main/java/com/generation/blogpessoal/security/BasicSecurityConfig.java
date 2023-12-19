@@ -1,4 +1,6 @@
-﻿package com.generation.blogpessoal.security;
+package com.generation.blogpessoal.security;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -52,24 +54,24 @@ public class BasicSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().csrf().disable()
-                .cors();
+    	http
+	        .sessionManagement(management -> management
+	                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+	        		.csrf(csrf -> csrf.disable())
+	        		.cors(withDefaults());
 
-        http
-                .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/usuarios/logar").permitAll()
-                        .requestMatchers("/usuarios/cadastrar").permitAll()
-                        .requestMatchers("/error/**").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                        .anyRequest().authenticated())
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-                .httpBasic();
+    	http
+	        .authorizeHttpRequests((auth) -> auth
+	                .requestMatchers("/usuarios/logar").permitAll()
+	                .requestMatchers("/usuarios/cadastrar").permitAll()
+	                .requestMatchers("/error/**").permitAll()
+	                .requestMatchers(HttpMethod.OPTIONS).permitAll()
+	                .anyRequest().authenticated())
+	        .authenticationProvider(authenticationProvider())
+	        .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+	        .httpBasic(withDefaults());
 
-        return http.build();
+		return http.build();
 
     }
 
